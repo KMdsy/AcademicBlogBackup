@@ -1,0 +1,138 @@
+---
+title: 5G NR（New Radio）规范
+date: 2022-01-23 18:00:00
+tag: 
+- note
+- 5G
+- 4G
+- 5G NR
+---
+
+## 基础概念解析
+
+### LTE与NR
+- LTE是4G时代的主要技术，且保留向后兼容的特性
+- NR是针对5G的新无线接入技术，全称为New Radio（新空口），NR借用了许多LTE的结构与功能，但作为新的无线接入技术，无需考虑向后兼容的问题
+
+<!-- more -->
+
+### NR标准的制定, 以及相关组织概念
+- ITU-R: 国际电联的无线通信部门
+- IMT: 国际移动通信，international mobile telecommunications
+- ITU-R WP5D: ITU-R的工作小组，负责IMT系统的无线方面的全部工作；ITU-R WP5D与各个国家与地区的标准化组织合作，对IMT进行定义，维护一系列**IMT建议书**与**报告**、**无线接口规范**（**RSPC**，ratio interface specification）。
+  - IMT建议书: 包括每一代IMT无线接口技术（RIT，radio interface technologies）
+  - RSPC: 对每个RIT作出概述、对详细规范列出引用列表
+
+### 几个重要的RSPC建议书
+- IMT-2000: 包含六个RIT，主要包括WCDMA/HSPA等3G技术
+- IMT-Advanced: 包含两个RIT，主要包括4G/LTE技术
+- IMT-2020: 新的建议书，在2019-2020制定，主要包含5G技术
+
+### IMT-2020使用场景
+- 增强的移动宽带通信（enhanced mobile broadband，eMBB）: *以人为中心的通信场景*——延续3G/4G的主要驱动力——无线宽带；新的挑战包括: **热点覆盖**（高速率、高用户密度、高容量需求）、**广域覆盖**（低速率、低用户密度、移动性、无缝用户体验）
+- 超可靠低时延通信（ultra-reliable and low-latency communications，URLLC）: *以人、机器为中心的通信场景*——特点包括: 低时延、高可靠性、高可用性；典型场景: 3D游戏、触觉互联网
+- 大规模机器类型通信（massive machine type communications，mMTC）: *以机器为中心的通信场景*——特点包括: 终端规模巨大、数据量小、传输不频繁、延迟不敏感；新的挑战包括: **一个系统中能容纳的总终端数量，以及如何降低终端成本**
+
+### IMT-2020能力集
+
+规范定义了13种能力，其中8种为**关键能力**
+- 关键能力（针对eMBB场景重要的）
+  - 峰值数据速率（peak data rate）: 理论议题，严重依赖频谱资源，$峰值数据速率=系统带宽 * 峰值频谱速率$
+  - 用户体验速率（user experienced data rate）: 针对*大多数用户（95\%）、在大范围内*可实现的速率；城区/郊区: 100Mbit/s，室内/热点: 1Gbit/s
+  - 频谱效率（spectrum efficiency）: 每单位无线设备的平均数据吞吐量，目标确定为4G的三倍
+  - 区域话务容量（area traffic capacity）: 依赖频谱效率、带宽、网络部署密度，$区域话务容量=频谱效率 * 带宽 * TRP密度$
+  - 网络能效（network energy efficiency）: 与上代持平
+- 关键能力（其他）
+  - 时延（latency）: 针对URLLC场景重要，时延相比前代减少10倍
+  - 移动性（mobility）: 针对URLLC场景重要，目标场景500km/h，同时要求低时延（不要求高用户速率）
+  - 连接密度（connection density）: 针对mMTC场景重要，每单位面积可接入的终端总数
+- 其他能力
+  - 频谱和带宽灵活性（spectrum and bandwidth flexibily）: 系统在不同频段上的工作能力
+  - 可靠性（reliability）: 服务可用性
+  - **可恢复性（resilience）**: 在自然、人为破坏期间、之后，网络能继续正常运行的能力
+  - 安全与隐私（security and privacy）: 数据、信令的加密/完整性保护，拒绝未经授权的跟踪
+  - 运行寿命（operational lifetime）: 每单位储存能量的运行时间
+
+### IMT-2020性能评估
+
+典型测试环境
+- 室内热点（indoor hotspot）-eMBB: 办公室/购物中心的室内隔离环境，针对密度很高的静止人群
+- 密集市区（dense urban）-eMBB: 高用户密度和流量的城市环境，针对行人/车辆用户
+- 郊区（Rural）-eMBB: 农村环境，针对大覆盖面积内的行人、车辆、高速车辆
+- 市区宏站（urban macro）-mMTC: 具有连续覆盖范围的城市宏基站环境，针对大量机器终端
+- 市区宏站（urban macro）- URLLC: 具有连续覆盖范围的城市宏基站环境，针对超可靠、低时延通信
+
+每个技术在每个典型测试环境中进行性能评估的三个基本方法
+- 仿真: 无线接口的系统级、链路级仿真
+- 分析: 基于无线接口参数的计算，或其他KPI值来评估
+- 检查: 审核无线接口的功能等
+
+## LTE概述
+
+### LTE的资源配置
+
+LTE在时域上的传输以10ms为一帧（frame），每帧包括10个1ms的子帧（subframe），每个子帧分为两个长度为0.5ms的时隙（slot），
+每个slot在时域上（在普通CP模式下）分成7个OFDM符号，或（在扩展CP模式下）分成6个OFDM符号，这里的一个OFDM符号是LTE资源调度的最小单元。由此延伸出TTI/RG/RB/RE的概念: 
+
+- TTI（transmission time-interval）: subframe作为LTE的一个调度时间单位，称为一个TTI
+    - 时域: 一个subframe（1ms）
+    - 频域: /（这仅仅是个时域定义）
+- RG（resource grid）: 一个slot中的传输信号可以用一个资源格（RG）描述。
+    - 时域: 一个Slot（0.5ms）
+    - 频域: 全部子载波
+- RB（Resource block）: 一个slot中的每个子载波称为一个资源块（RB）（这可以被视为资源的粗粒度分割方法），**RB是分配资源到UE的最小单位**
+    - 时域: 一个Slot（0.5ms）
+    - 频域: 连续12个子载波
+- RE（Resource elements）: 一个RB中的一个OFDM symbol，其在RG上的位置可由$(k,l)$唯一标注，其中$l$表时域，$k$表频域（这可以被视为资源的细粒度分割方法），**RE时LTE资源调度的最小单位**
+    - 时域: OFDM symbol（slot中的1/7或1/6）
+    - 频域: 一个子载波
+- RG/RB/RE的关系: 一个RG可在频域上分为多个RB；一个RB可在时域和频域上分为多个RE（如下图所示）。
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/KMdsy/figurebed/master/img/20220106185157.png" width = "70%" />
+</div>
+
+### LTE数据传输概述
+由于5G NR在设计时参考了并复用了许多LTE技术构建，此外5G NR与LTE均由3GPP制定，因此在此总结LTE层的相关知识。
+
+LTE根据不同的帧格式，可以配置帧为FDD或TDD，同时可以对全双工和半双工模式进行配置。在此首先忽略LTE中具体的帧格式，对上下行链路的中的关键信号作出解释。
+
+#### 物理层上行链路
+
+用户的上行链路传输包括: 
+- RS（Reference signals，参考信号）: 包括SRS（Sounding Reference Signal，探测参考信号）、DMRS（Demodulation Reference Signal，解调参考信号），参考信号用于信道估计或均衡。
+    - DMRS: BS使用UE发送的DMRS来均衡和解调UE的传输
+    - SRS: 基站了解该UE的上行信道特性。基站可以使用该信息来为UE分配好的上行链路以进行传输
+- 物理信道
+    - PUSCH（physical uplink share channel，物理上行共享信道）: 该信道传输用户的上行数据，这里的 "共享" 指同一物理信道可由多个用户分时使用，或者说信道具有较短的持续时间。一个UE可以并行存在多条USCH，这些并行的USCH数据可以在物理层进行编码组合。
+    - PUCCH（physical uplink control channel，物理上行控制信道）: 该信道用于承载UCI（uplink control information，上行链路控制信息），PUCCH包括: HARQ ACK/NACK、CQI 信道质量指标、MIMO 反馈 - RI（秩指标），PMI（预编码矩阵指标）、上行链路传输的调度请求、用于 PUCCH 调制的 BPSK 或 QPSK
+    - PRACH（Physical Random Access Channel，物理随机接入信道）: 上行链路用户使用物理随机接入信道（PRACH）来发起与基站的联系。基站广播一些基本的小区信息，包括可以发送随机接入请求的位置。然后，UE 进行 PRACH 传输，请求分配 PUSCH，基站使用下行链路控制信道 (PDCCH) 来回复 UE 可以在何处传输 PUSCH。
+    - 注意: 用户不能在同一个时隙中同时传输PUCCH和PUSCH数据
+- 关于同步: 上行信号没有专用的同步信号。在实际环境中，上行链路信号将使用下行链路信号进行同步。但是，为了在使用 89600 VSA LTE 解调器时分析上行链路与下行链路分离，可以使用 PUCCH DM-RS、PUSCH DM -RS、PRACH 或 SRS同步上行链路帧。
+
+#### 物理层下行链路
+
+基站的下行链路传输包括: 
+
+- SYN（Synchronization，同步信号）: 下行同步信号有两个，主同步信号（P-SS）和辅同步信号（S-SS）
+- RS（Reference signals，参考信号），根据不同的帧配置，所发送的参考信号将有所不同: 
+    - C-RS（Cell specific Reference Signal）: BS发送的C-RS被UE用于下行物理信道的信道估计、获取信道状态信息以便信道调度、执行终端测量从而决定UE的初始接入/选择和切换、终端侧频率误差的校正。C-RS在每个下行子帧，整个下行传输带宽内的每个RB上都会发送，无论是否下行链路有数据发送。
+    - UE-RS（UE specific Reference Signal）: BS可以在分配给UE的PDSCH的RB中发送UE-RS。
+    - P-RS（Positioning Reference Signal，定位参考信号): 用于增强UE地理定位精度
+    - MBSFN-RS（Multicast/Broadcast Single Frequency Network Reference Signal，组播/广播单频网络参考信号 ）: 用于补偿在物理多播信道（下行链路信道的影响PMCH），其中包含的多播/广播数据
+- 物理信道
+    - 控制信道（Control channels）: 控制信道提供管理用户信道上数据传输所需的信息，并促进与基站的连接。这些通道放置在帧中的特定位置。
+        - PBCH: 物理广播频道，携带特定于cell的信息。
+        - PCFICH: 物理控制格式指示通道，包含有关子帧中用于 PDCCH 的 OFDM 符号数量的信息。
+        - PDCCH: 物理下行控制信道，包含调度信息。
+        - PHICH: 物理混合ARQ指示通道，携带混合 ARQ ACK / NACK。
+    - 共享信道（Shared channel）: PDSCH（physical downlink share channel）包含发送给用户的数据。所有资源块都可用于分配，但只有未为控制信道预留的子载波可用于承载数据。
+    - 组播信道（Multicast channel）: 物理多播信道 (Physical Multicast Channel，PMCH) 支持MBMS（Multimedia Broadcast/Multicast Service，多媒体广播/多播服务），并承载供多个用户使用的数据。单个小区（广播）或多个小区（多播）都可以参与传输数据。来自不同小区的信号在UE处汇合，以能够提供更高的信号功率。MBMS 信号在扩展 CP 模式下传输，以减轻由于每个小区到 UE 的距离不同而导致的多径效应。
+
+
+（后续更新: 5G NR接入流程，竞争机制）
+
+------
+
+## 参考文献
+[1] https://rfmw.em.keysight.com/wireless/helpfiles/89600B/WebHelp/subsystems/lte/content/lte_overview.htm
