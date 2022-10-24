@@ -22,7 +22,7 @@ tag:
 
 ### 因果三阶梯
 
-**Causal discovery(CD)** 包含三个层次 <a name="ref1">[1]</a>: 
+**Causal discovery(CD)** 包含三个层次 <a href="#ref1">[1]</a>: 
 
 - 关联 *Association*: A、B相关
 - 干预 *Intervention*: 改变A的时候, B如何改变
@@ -42,11 +42,11 @@ tag:
 - 已知causal structure learning中，已经用不同的模型对因果进行了定义，这种定义或是定性的、或是定量的，因此这类方法本质上就是在根据每种方法的定义，从数据中拟合所谓的“因果”。因此causal structure learning可以视为“学习以模型定义的因果”的一类方法
 - 那除了用模型定义的因果，还有哪些定义呢。
 
-文献<a name="ref14">[14]</a>从哲学、社会学等层面探究了因果在AI领域的定义，在Section 6.5中提到了一个关键问题：“因果是**确定性**的还是**概率性**的？”，以下是一些结论：自古以来，因果这个概念都**不具备一个统一的定义**。自古以来，因果总是与决定论、物理必然性和逻辑必然性联系在一起（即：**确定性**）。但在现代科学所研究的因果理论几乎都是**概率性**的，即以概率论和统计学论为基础的。但也有部分确定性的表述，这种表述大多源自于工程学，是一种不证自明方法（这里我理解，在工程学里总有“改变A，基于设计原理，B就一定会改变，并且B只受A控制，因此AB是因果关系”的表述，这种工程学上的因果显然是确定性的）。
+文献<a href="#ref14">[14]</a>从哲学、社会学等层面探究了因果在AI领域的定义，在Section 6.5中提到了一个关键问题：“因果是**确定性**的还是**概率性**的？”，以下是一些结论：自古以来，因果这个概念都**不具备一个统一的定义**。自古以来，因果总是与决定论、物理必然性和逻辑必然性联系在一起（即：**确定性**）。但在现代科学所研究的因果理论几乎都是**概率性**的，即以概率论和统计学论为基础的。但也有部分确定性的表述，这种表述大多源自于工程学，是一种不证自明方法（这里我理解，在工程学里总有“改变A，基于设计原理，B就一定会改变，并且B只受A控制，因此AB是因果关系”的表述，这种工程学上的因果显然是确定性的）。
 
 根据以上思路，可以分析得到：
 
-- 因果在哲学上的定义一般都是确定性的，但在现代科学中，通常被定义为概率性的。之所以被如此定义，一方面是有部分前人的工作也如此定义；另一方面，经典的概率足以模拟人类推理的几乎所有方面<a name="ref15">[15]</a>。从这个角度上来讲，**概率性因果是对确定性因果的一个更广义的描述**。
+- 因果在哲学上的定义一般都是确定性的，但在现代科学中，通常被定义为概率性的。之所以被如此定义，一方面是有部分前人的工作也如此定义；另一方面，经典的概率足以模拟人类推理的几乎所有方面<a href="#ref15">[15]</a>。从这个角度上来讲，**概率性因果是对确定性因果的一个更广义的描述**。
 - 站在概率性因果的角度，因果发现可以被称之为，在数据中发现概率结构的工作（即因素A的概率分布变化时，因素B的概率分布是否变化），其本质都是在拟合一个概率模型。从这个角度来说，**概率模型**也可以用于因果发现。
 - causal structure learning则是一种学习structure causal model的方法。其基础是对因果进行概率、统计上的定义，并用恰当的模型来描述因果结构。
 - graphical model则是structure causal model的一种，也是受广泛研究的一种。
@@ -63,7 +63,7 @@ tag:
 
 “结构学习本质上是一个模型选择问题，选择一个给定数据集上最能够描述数据依赖的模型。因果结构学习是结构学习中的一种特例，其学习了一个因果图”。这个观点是被普遍接受的。
 
-**Remark**：结构学习的三种方法（基于约束、基于分数、基于函数）本质上都可以细分为通过组合/搜索算法，来识别因果结构 <a name="ref13">[13]</a>
+**Remark**：结构学习的三种方法（基于约束、基于分数、基于函数）本质上都可以细分为通过组合/搜索算法，来识别因果结构 <a href="#ref13">[13]</a>
 
 > **Structure learning is a model selection problem** in which one estimates or learns a graph that best describes the dependence structure in a given data set (Drton & Maathuis 2017). **Causal structure learning is the special case** in which one tries to learn the **causal graph** or certain aspects of it, and this is what we focus on in this article.
 >
@@ -71,7 +71,7 @@ tag:
 
 **Q1：除DAG外，还有哪些因果图** 
 
-摘自 <a name="ref13">[13]</a>
+摘自 <a href="#ref13">[13]</a>
 
 > Other types of graph used to represent causal structure include Partially Oriented Induced Path Graphs (POIPGs)[190, 228], SingleWorld Intervention Graphs (SWIGs) [24, 201, 202], σ-connection graphs [56], undirected graphs[11], interaction and component graphs for dynamic systems [40], Maximal Almost Ancestral Graphs (MAAGs)[231], psi-ECs [110], Patterns [274], and arid, bow-free, and ancestral ADMGs [19]. 
 >
@@ -79,7 +79,7 @@ tag:
 
 **Q2：大数据对因果发现的贡献**
 
-由三阶梯定义的因果通常是难以推断的，因为大多数情况下，实验人员都难以“干预”，更别说“反事实”。此外，可能存在“未被观测的潜在因素”、“因果知识通常是非先验的（我理解是，非先验导致难以反事实）”也是阻碍因果发现与估计的因素之一 <a name="ref13">[13]</a>。
+由三阶梯定义的因果通常是难以推断的，因为大多数情况下，实验人员都难以“干预”，更别说“反事实”。此外，可能存在“未被观测的潜在因素”、“因果知识通常是非先验的（我理解是，非先验导致难以反事实）”也是阻碍因果发现与估计的因素之一 <a href="#ref13">[13]</a>。
 
 > Unfortunately, in many cases, it may not be possible to undertake such experiments due to prohibitive cost, ethical concerns, or impracticality. For example, to understand the impact of smoking, it would be necessary to force diferent individuals to smoke or not-smoke. **Researchers are therefore often left with non-experimental, observational data.** In the absence of intervention and manipulation, observational data leave researchers facing a number of challenges: Firstly, observational datasets may not contain all relevant variables - **there may exist unobserved/hidden/latent factors** (this is sometimes referred to as the third variable problem). Secondly, observational data may **exhibit selection bias** - for example, younger patients may in general prefer to opt for surgery, whereas older patients may prefer medication. Thirdly, the causal **relationships underlying these data may not be known a priori** - for example, are genetic factors independent causes of a particular outcome, or do they mediate or moderate an outcome? These three challenges afect the discovery and estimation of causal relationships
 
@@ -89,7 +89,7 @@ tag:
 - 大数据也可以以数据量级减轻选择偏差（我理解是：虽然年轻人可能更倾向于选择整形手术，但随着样本增多，也可以找到倾向于做整形手术的老年人）。
 - 大数据可能可以帮助我们进行反事实，例如对于一个周期系统，通过足够多周期的观察，我们也许可以找到一个时间点，只有一个原因变量发生变化，而其他所有变量都与历史保持一致，这种场景有利于推断因果反事实。
 
-此外，对比实验数据（即存在“干预-效果”结构的数据）以及观测数据（即只包含非主动干预以及被动观测的数据），观测数据可以提供更好的统计能力和可推广性 <a name="ref13">[13]</a>。
+此外，对比实验数据（即存在“干预-效果”结构的数据）以及观测数据（即只包含非主动干预以及被动观测的数据），观测数据可以提供更好的统计能力和可推广性 <a href="#ref13">[13]</a>。
 
 
 
@@ -100,13 +100,13 @@ tag:
 - Graphical models: 由图模型表示的因果关系, 其中节点表示随机变量, 有向边表示因果方向
 - Structural equations: 在图模型中, 有向边上的因果效应, 由函数式表示
 
-<a name="ref1">[1]</a>中对SCM有以下论述
+<a href="#ref1">[1]</a>中对SCM有以下论述
 
 > **"structural causal models"** (SCM), which consists of three parts: *graphical models*, *structural equations,* and *counterfactual and interventional logic*. 
 >
 > Graphical models serve as a language for representing what agents know about the world. Counterfactuals help them articulate what they wish to know. And structural equations serve to tie the two together in a solid semantics.
 
-<a name="ref3">[3]</a>中则着重推崇了图模型作为因果模型的表达形式
+<a href="#ref3">[3]</a>中则着重推崇了图模型作为因果模型的表达形式
 
 > Methods for extracting causal conclusions from observational studies are on the **middle** rung of Pearl’s Ladder of Causation, and they can be expressed in a mathematical language that extends classical statistics and **emphasizes graphical models**.
 >
@@ -120,9 +120,9 @@ tag:
 
 ### Casual structure learning的三类方法
 
-Casual structure learning的经典分类方法可分为三个**主要类别**：constrain-based, score-based, functional casual model <a name="ref2">[2]</a>，还有一些hybird method，此处不列出。
+Casual structure learning的经典分类方法可分为三个**主要类别**：constrain-based, score-based, functional casual model <a href="#ref2">[2]</a>，还有一些hybird method，此处不列出。
 
-**Remark**：也有文章<a name="ref13">[13]</a>提出“constraint-based, score-based, those exploiting structural asymmetries, and those exploiting various forms of intervention”的分类方法，这种分类方法比较新，可能对近期（2022）工作有较好的适应性。
+**Remark**：也有文章<a href="#ref13">[13]</a>提出“constraint-based, score-based, those exploiting structural asymmetries, and those exploiting various forms of intervention”的分类方法，这种分类方法比较新，可能对近期（2022）工作有较好的适应性。
 
 - **Constraint-based methods**: 这类方法依赖随机变量间的**条件独立性测试(conditional independency test)** 探究变量间的因果结构
 
@@ -149,7 +149,7 @@ Casual structure learning的经典分类方法可分为三个**主要类别**：
 
     - 该类方法由于进行了严格的假设, 且一般会根据函数的拟合程度来找到唯一的因果方向, 因此一般不会出现马尔可夫等价类
 
-    - 注意, FCM一般是探究两个变量之间因果关系的方法, 如<a name="ref4">[4]</a>所述。该类方法的缺点是对数据特性以及因果有较强的假设。
+    - 注意, FCM一般是探究两个变量之间因果关系的方法, 如<a href="#ref4">[4]</a>所述。该类方法的缺点是对数据特性以及因果有较强的假设。
 
         > Determining causal relationships **between two variables** is a fundamental and challenging causal discovery task (Janzing et al., 2012). **Conventional constraint-based and score-based causal discovery methods identify causal structures only up to Markov equivalent classes (Spirtes et al., 2001), in which some causal relationships are undetermined.** To address this challenge, properly constrained functional causal models (**FCMs**) have been proposed. FCMs represent the effect as a function of its cause and independent noise and can help identify the causal direction between two variables by imposing substantial structural constraints on model classes, such as additive noise models (ANMs)
 
@@ -190,7 +190,7 @@ $\begin{array}{ll}\text{min} &Q\left( I\left( \mathbf{M}\right)  ,T\left( \mathb
 其中$Q(\cdot)$用于衡量集合$I(\mathbf{M}),T(\mathbf{X})$之间的相似程度, $T(\mathbf{X})$是一组在$\mathbf{X}$中可测试的所有**条件独立/依赖**的约束集合。其中条件独立约束表示为$\mathbf{x}_i \bot \mathbf{x}_j | S$, 条件依赖约束表示为$\mathbf{x}_i \bot \backslash  \mathbf{x}_j | S$。 $I(\mathbf{M})$为一组根据图G得到的独立和依赖的约束集合。
 
 
-**举例**: 如在PC<a name="ref5">$^{5}$</a>算法中, 函数$Q(\cdot)$表示为
+**举例**: 如在PC<a href="#ref5">$^{5}$</a>算法中, 函数$Q(\cdot)$表示为
 
 $Q\left( I\left( \mathbf{M} \right)  ,T\left( \mathbf{X} \right)  \right)  =\begin{cases}1&\text{if} \  I\left( \mathbf{M} \right)  \neq T\left( \mathbf{X} \right)  \\ 0&\text{otherwise} \end{cases} $
 
@@ -200,11 +200,11 @@ $Q\left( I\left( \mathbf{M} \right)  ,T\left( \mathbf{X} \right)  \right)  =\beg
 
 $\begin{array}{ll}\max &S\left( \mathbf{M} ,\mathbf{X} \right)  \\ \text{s.t.} &G\left( \mathbf{M} \right)  \in \text{DAGs} \\ \text{var} &\mathbf{M} \in \left\{ 0,1\right\}^{d\times d}  \end{array} $
 
-其中DAG约束在<a name="ref6">[6]</a>中被重写为$\text{tr} \left( {}e^{\mathbf{M} \circ \mathbf{M} }\right)  -d=0$, 这使得目标函数可以被连续优化。$S(\cdot)$为图与观测助局之间的适应度得分, 可用的得分函数包括BIC(GES<a name="ref7">[7]</a>)、Bde<a name="ref8">[8]</a>、Bge<a name="ref9">[9]</a>。不同的方法往往采用不同的搜索算法在图空间中与哦话上述目标函数, 如: 贪心搜索(greedy search)<a name="ref8">[8]</a>、顺序查找(order search)<a name="ref10">[10]</a>、坐标下降<a name="ref5">[5]</a>。
+其中DAG约束在<a href="#ref6">[6]</a>中被重写为$\text{tr} \left( {}e^{\mathbf{M} \circ \mathbf{M} }\right)  -d=0$, 这使得目标函数可以被连续优化。$S(\cdot)$为图与观测助局之间的适应度得分, 可用的得分函数包括BIC(GES<a href="#ref7">[7]</a>)、Bde<a href="#ref8">[8]</a>、Bge<a href="#ref9">[9]</a>。不同的方法往往采用不同的搜索算法在图空间中与哦话上述目标函数, 如: 贪心搜索(greedy search)<a href="#ref8">[8]</a>、顺序查找(order search)<a href="#ref10">[10]</a>、坐标下降<a href="#ref5">[5]</a>。
 
 
 
-**举例**: NOTEARS<a name="ref11">[11]]</a>中的得分函数为
+**举例**: NOTEARS<a href="#ref11">[11]]</a>中的得分函数为
 
 $\mathcal{S}(\boldsymbol{M}, \boldsymbol{X})=\frac{1}{2 n} \sum_{t=1}^n\left\|\boldsymbol{x}_t-\boldsymbol{f}\left(\boldsymbol{M}, \boldsymbol{x}_t\right)\right\|_F^2$
 
@@ -220,7 +220,7 @@ $\begin{array}{ll}\min &\sum_{i,j=1:d} M_{i,j}L\left( \mathbf{x}_{j} ,f\left( \m
 
 
 
-**举例**: LiNGAM<a name="ref12">[12]</a>假设$\boldsymbol{x}_i=\sum_{\boldsymbol{x}_j \in p a\left(\boldsymbol{x}_i\right)} b_{i j} \boldsymbol{x}_j+\boldsymbol{e}_i$, 噪声项的概率密度函数记为$p_i(\mathbf{e}_i)$。基于ICA和极大似然估计, 对于LiNGAM模型**参数估计部分**的优化目标为
+**举例**: LiNGAM<a href="#ref12">[12]</a>假设$\boldsymbol{x}_i=\sum_{\boldsymbol{x}_j \in p a\left(\boldsymbol{x}_i\right)} b_{i j} \boldsymbol{x}_j+\boldsymbol{e}_i$, 噪声项的概率密度函数记为$p_i(\mathbf{e}_i)$。基于ICA和极大似然估计, 对于LiNGAM模型**参数估计部分**的优化目标为
 
 $\min _{\mathbf{W}} L(\mathbf{W})=-\sum_{i=1}^m\left(\sum_{j=1}^n \log p_j\left(\boldsymbol{w}_j^T \boldsymbol{x}_i\right)+\log |\mathbf{W}|\right)$
 
@@ -230,35 +230,35 @@ $\min _{\mathbf{W}} L(\mathbf{W})=-\sum_{i=1}^m\left(\sum_{j=1}^n \log p_j\left(
 
 ## Reference
 
-<a href="#ref1">[1]</a> Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. *Communications of the ACM*, *62*(3), 54-60.
+<a name="ref1">[1]</a> Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. *Communications of the ACM*, *62*(3), 54-60.
 
-<a href="#ref2">[2]</a> Glymour, Clark, Kun Zhang, and Peter Spirtes. "Review of causal discovery methods based on graphical models." *Frontiers in genetics* 10 (2019): 524.
+<a name="ref2">[2]</a> Glymour, Clark, Kun Zhang, and Peter Spirtes. "Review of causal discovery methods based on graphical models." *Frontiers in genetics* 10 (2019): 524.
 
-<a href="#ref3">[3] </a>Goldberg, L. R. (2019). The Book of Why: The New Science of Cause and Effect: by Judea Pearl and Dana Mackenzie, *Basic Books* (2018). ISBN: 978-0465097609.
+<a name="ref3">[3] </a>Goldberg, L. R. (2019). The Book of Why: The New Science of Cause and Effect: by Judea Pearl and Dana Mackenzie, *Basic Books* (2018). ISBN: 978-0465097609.
 
-<a href="#ref4">[4]</a> Tu, R., Zhang, K., Kjellström, H., & Zhang, C. (2022). Optimal transport for causal discovery. In *ICLR 2022-The Tenth International Conference on Learning Representations (Virtual), Apr 25th-29th, 2022.
+<a name="ref4">[4]</a> Tu, R., Zhang, K., Kjellström, H., & Zhang, C. (2022). Optimal transport for causal discovery. In *ICLR 2022-The Tenth International Conference on Learning Representations (Virtual), Apr 25th-29th, 2022.
 
-<a href="#ref5">[5]</a> Kalisch, Markus, and Peter Bühlman. "Estimating high-dimensional directed acyclic graphs with the PC-algorithm." Journal of Machine Learning Research 8.3 (2007).
+<a name="ref5">[5]</a> Kalisch, Markus, and Peter Bühlman. "Estimating high-dimensional directed acyclic graphs with the PC-algorithm." Journal of Machine Learning Research 8.3 (2007).
 
-<a href="#ref7">[6]</a> Xun Zheng, Bryon Aragam, Pradeep Ravikumar, and Eric P. Xing. 2018. DAGs with NO TEARS: continuous optimization for structure learning. In Proceedings of the 32nd International Conference on Neural Information Processing Systems (NIPS'18). Curran Associates Inc., Red Hook, NY, USA, 9492–9503.
+<a name="ref6">[6]</a> Xun Zheng, Bryon Aragam, Pradeep Ravikumar, and Eric P. Xing. 2018. DAGs with NO TEARS: continuous optimization for structure learning. In Proceedings of the 32nd International Conference on Neural Information Processing Systems (NIPS'18). Curran Associates Inc., Red Hook, NY, USA, 9492–9503.
 
-<a href="#ref7">[7]</a> D. M. Chickering and D. Heckerman. Efficient approximations for the marginal likelihood of Bayesian networks with hidden variables. Machine Learning, 29(2-3):181–212, 1997.
+<a name="ref7">[7]</a> D. M. Chickering and D. Heckerman. Efficient approximations for the marginal likelihood of Bayesian networks with hidden variables. Machine Learning, 29(2-3):181–212, 1997.
 
-<a href="#ref8">[8]</a> D. Heckerman, D. Geiger, and D. M. Chickering. Learning Bayesian networks: The combination of knowledge and statistical data. Machine learning, 20(3):197–243, 1995.
+<a name="ref8">[8]</a> D. Heckerman, D. Geiger, and D. M. Chickering. Learning Bayesian networks: The combination of knowledge and statistical data. Machine learning, 20(3):197–243, 1995.
 
-<a href="#ref9">[9]</a> J. Kuipers, G. Moffa, and D. Heckerman. Addendum on the scoring of gaussian directed acyclic graphical models. The Annals of Statistics, pages 1689–1691, 2014.
+<a name="ref9">[9]</a> J. Kuipers, G. Moffa, and D. Heckerman. Addendum on the scoring of gaussian directed acyclic graphical models. The Annals of Statistics, pages 1689–1691, 2014.
 
-<a href="#ref10">[10]</a> F. Fu and Q. Zhou. Learning sparse causal Gaussian networks with experimental intervention: Regularization and coordinate descent. Journal of the American Statistical Association, 108(501):288–300, 2013. 
+<a name="ref10">[10]</a> F. Fu and Q. Zhou. Learning sparse causal Gaussian networks with experimental intervention: Regularization and coordinate descent. Journal of the American Statistical Association, 108(501):288–300, 2013. 
 
-<a href="#ref11">[11]</a> Zheng, X., Aragam, B., Ravikumar, P. K., & Xing, E. P. (2018). Dags with no tears: Continuous optimization for structure learning. *Advances in Neural Information Processing Systems*, *31*.
+<a name="ref11">[11]</a> Zheng, X., Aragam, B., Ravikumar, P. K., & Xing, E. P. (2018). Dags with no tears: Continuous optimization for structure learning. *Advances in Neural Information Processing Systems*, *31*.
 
-<a href="#ref12">[12]</a> Shimizu, S., Hoyer, P. O., Hyvärinen, A., Kerminen, A., & Jordan, M. (2006). A linear non-Gaussian acyclic model for causal discovery. *Journal of Machine Learning Research*, *7*(10).
+<a name="ref12">[12]</a> Shimizu, S., Hoyer, P. O., Hyvärinen, A., Kerminen, A., & Jordan, M. (2006). A linear non-Gaussian acyclic model for causal discovery. *Journal of Machine Learning Research*, *7*(10).
 
-<a href="#ref13">[13]</a> Matthew J. Vowels, Necati Cihan Camgoz, and Richard Bowden. 2022. D’ya Like DAGs? A Survey on Structure Learning and Causal Discovery. ACM Comput. Surv. Just Accepted (March 2022). https://doi.org/10.1145/3527154
+<a name="ref13">[13]</a> Matthew J. Vowels, Necati Cihan Camgoz, and Richard Bowden. 2022. D’ya Like DAGs? A Survey on Structure Learning and Causal Discovery. ACM Comput. Surv. Just Accepted (March 2022). https://doi.org/10.1145/3527154
 
-<a href="#ref14">[14]</a> Starmans, R. (2020). Prometheus unbound or Paradise regained: the concept of Causality in the contemporary AI-Data Science debate. *Journal de la Société Française de Statistique*, *161*(1), 4-41.
+<a name="ref14">[14]</a> Starmans, R. (2020). Prometheus unbound or Paradise regained: the concept of Causality in the contemporary AI-Data Science debate. *Journal de la Société Française de Statistique*, *161*(1), 4-41.
 
-<a href="#ref15">[15]</a> Cheeseman, P. (1985). In defense of probability. In Proceedings of the Ninth International Joint Conference on AI (IJCAI, 1983).
+<a name="ref15">[15]</a> Cheeseman, P. (1985). In defense of probability. In Proceedings of the Ninth International Joint Conference on AI (IJCAI, 1983).
 
 
 
