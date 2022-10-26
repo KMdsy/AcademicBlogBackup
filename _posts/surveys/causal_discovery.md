@@ -1,7 +1,7 @@
 ---
 title: Causal Discovery
 date: 2021-08-25 12:00:00
-updated: 2022-10-23 23:55:00
+updated: 2022-10-26 12:20:00
 tag: 
 - survey
 - causal discovery
@@ -42,22 +42,48 @@ tag:
 - 已知causal structure learning中，已经用不同的模型对因果进行了定义，这种定义或是定性的、或是定量的，因此这类方法本质上就是在根据每种方法的定义，从数据中拟合所谓的“因果”。因此causal structure learning可以视为“学习以模型定义的因果”的一类方法
 - 那除了用模型定义的因果，还有哪些定义呢。
 
+**因果的本质**
+
 文献<a href="#ref14">[14]</a>从哲学、社会学等层面探究了因果在AI领域的定义，在Section 6.5中提到了一个关键问题：“因果是**确定性**的还是**概率性**的？”，以下是一些结论：自古以来，因果这个概念都**不具备一个统一的定义**。自古以来，因果总是与决定论、物理必然性和逻辑必然性联系在一起（即：**确定性**）。但在现代科学所研究的因果理论几乎都是**概率性**的，即以概率论和统计学论为基础的。但也有部分确定性的表述，这种表述大多源自于工程学，是一种不证自明方法（这里我理解，在工程学里总有“改变A，基于设计原理，B就一定会改变，并且B只受A控制，因此AB是因果关系”的表述，这种工程学上的因果显然是确定性的）。
+
+其实，因果在统计学上的定义也并未统一，文献<a href="#ref16">[16]</a>中列出了三种主要的观点，下文说明一种较常见的观点，来自于Good<a href="#ref17">[17]</a>：
+
+> 事件 $F$ 是事件 $E$ 的原因需要满足：
+>
+> 1. 事件 $E$ 和 $F$ 同时发生
+>
+> 2. $P(E|H)<1, P(F|H)<1$ ，其中$H$包含两部分：
+>
+>     - $H1$ : 所有的自然法则
+>
+>     - $H2$ : 所有被认为是理所当然的真实背景条件
+>
+> 3. $P(E|FH) > P(E|\bar{F}H)$
+
+Good在后续的研究<a href="#ref18">[18]</a><a href="#ref19">[19]</a>中试图给出因果关系的一种定量描述。$F$ 对$E$ 的潜在因果趋势可以由下式度量
+$$
+\log \frac{P(\bar{E}|\bar{F}H)}{P(\bar{E}|FH)}
+$$
+
+> where $H$ consists of all laws of nature and the background conditions before $F$ started. Thus for $F$ to be a potential cause of $E$, the **two must be probabilistically dependent conditional on $H$**. The (actual causal) degree to which $F$ caused $E$ is the **limit**, as the sizes of the events tend uniformly to zero, of the strength of the network of causal connections between $E$ and $F$. Here the strength of a link from $F$ to $E$ is measured by the tendency of $F$ to cause $E$; the strength of the network as a whole is a function of these link strengths which takes into account interactions amongst causes.
+
+
 
 根据以上思路，可以分析得到：
 
 - 因果在哲学上的定义一般都是确定性的，但在现代科学中，通常被定义为概率性的。之所以被如此定义，一方面是有部分前人的工作也如此定义；另一方面，经典的概率足以模拟人类推理的几乎所有方面<a href="#ref15">[15]</a>。从这个角度上来讲，**概率性因果是对确定性因果的一个更广义的描述**。
 - 站在概率性因果的角度，因果发现可以被称之为，在数据中发现概率结构的工作（即因素A的概率分布变化时，因素B的概率分布是否变化），其本质都是在拟合一个概率模型。从这个角度来说，**概率模型**也可以用于因果发现。
-- causal structure learning则是一种学习structure causal model的方法。其基础是对因果进行概率、统计上的定义，并用恰当的模型来描述因果结构。
-- graphical model则是structure causal model的一种，也是受广泛研究的一种。
+
+**因果结构学习**
+
+causal structure learning是一种学习structure causal model的方法。其基础是对因果进行概率、统计上的定义，并用恰当的模型来描述因果结构。graphical model则是structure causal model的一种，也是受广泛研究的一种。
 
 综上所述，casual discovery / probabilistic model / structure casual model / casual graph 之间的关系为
 
 <div align="center">
     <img src="https://raw.githubusercontent.com/KMdsy/figurebed/master/img/20221024103453.png" width = "65%" />
 </div>
-
-**Remark**: (1) 格兰杰因果应该属于structure casual model，但不一定属于图模型；(2) 图模型不仅包括DAG，还有其他类型的图（如）。
+**Remark**: (1) 格兰杰因果应该属于structure casual model，但不一定属于图模型；(2) 图模型不仅包括DAG，还有其他类型的图。
 
 **支撑材料**
 
@@ -185,28 +211,36 @@ Casual structure learning的经典分类方法可分为三个**主要类别**：
 
 基于约束的算法利用 从一系列统计测试中获得的一组条件独立性结果 来恢复因果图。该类方法的优化问题表述为: 
 
-$\begin{array}{ll}\text{min} &Q\left( I\left( \mathbf{M}\right)  ,T\left( \mathbf{X}\right)  \right)  \\ \text{s.t.} &T\left( \mathbf{X}\right)  \\ &G\left( \mathbf{M}\right)  \in \text{DAGs} \\ \text{var} &\mathbf{M}\in \left\{ 0,1\right\}^{d\times d}  \end{array} $
-
+$$
+\begin{array}{ll}\text{min} &Q\left( I\left( \mathbf{M}\right)  ,T\left( \mathbf{X}\right)  \right)  \\ \text{s.t.} &T\left( \mathbf{X}\right)  \\ &G\left( \mathbf{M}\right)  \in \text{DAGs} \\ \text{var} &\mathbf{M}\in \left\{ 0,1\right\}^{d\times d}  \end{array}
+$$
 其中$Q(\cdot)$用于衡量集合$I(\mathbf{M}),T(\mathbf{X})$之间的相似程度, $T(\mathbf{X})$是一组在$\mathbf{X}$中可测试的所有**条件独立/依赖**的约束集合。其中条件独立约束表示为$\mathbf{x}_i \bot \mathbf{x}_j | S$, 条件依赖约束表示为$\mathbf{x}_i \bot \backslash  \mathbf{x}_j | S$。 $I(\mathbf{M})$为一组根据图G得到的独立和依赖的约束集合。
 
 
 **举例**: 如在PC<a href="#ref5">$^{5}$</a>算法中, 函数$Q(\cdot)$表示为
 
-$Q\left( I\left( \mathbf{M} \right)  ,T\left( \mathbf{X} \right)  \right)  =\begin{cases}1&\text{if} \  I\left( \mathbf{M} \right)  \neq T\left( \mathbf{X} \right)  \\ 0&\text{otherwise} \end{cases} $
+$$
+Q\left( I\left( \mathbf{M} \right)  ,T\left( \mathbf{X} \right)  \right)  =\begin{cases}1&\text{if} \  I\left( \mathbf{M} \right)  \neq T\left( \mathbf{X} \right)  \\ 0&\text{otherwise} \end{cases}
+$$
+
 
 ### Score-based Method
 
 基于得分的算法最大化图$G$与观测数据$\mathbf{X}$之间的适应度, 来构建因果结构。该类方法的优化问题表述为: 
 
-$\begin{array}{ll}\max &S\left( \mathbf{M} ,\mathbf{X} \right)  \\ \text{s.t.} &G\left( \mathbf{M} \right)  \in \text{DAGs} \\ \text{var} &\mathbf{M} \in \left\{ 0,1\right\}^{d\times d}  \end{array} $
-
+$$
+\begin{array}{ll}\max &S\left( \mathbf{M} ,\mathbf{X} \right)  \\ \text{s.t.} &G\left( \mathbf{M} \right)  \in \text{DAGs} \\ \text{var} &\mathbf{M} \in \left\{ 0,1\right\}^{d\times d}  \end{array}
+$$
 其中DAG约束在<a href="#ref6">[6]</a>中被重写为$\text{tr} \left( {}e^{\mathbf{M} \circ \mathbf{M} }\right)  -d=0$, 这使得目标函数可以被连续优化。$S(\cdot)$为图与观测助局之间的适应度得分, 可用的得分函数包括BIC(GES<a href="#ref7">[7]</a>)、Bde<a href="#ref8">[8]</a>、Bge<a href="#ref9">[9]</a>。不同的方法往往采用不同的搜索算法在图空间中与哦话上述目标函数, 如: 贪心搜索(greedy search)<a href="#ref8">[8]</a>、顺序查找(order search)<a href="#ref10">[10]</a>、坐标下降<a href="#ref5">[5]</a>。
 
 
 
 **举例**: NOTEARS<a href="#ref11">[11]]</a>中的得分函数为
 
-$\mathcal{S}(\boldsymbol{M}, \boldsymbol{X})=\frac{1}{2 n} \sum_{t=1}^n\left\|\boldsymbol{x}_t-\boldsymbol{f}\left(\boldsymbol{M}, \boldsymbol{x}_t\right)\right\|_F^2$
+$$
+\mathcal{S}(\boldsymbol{M}, \boldsymbol{X})=\frac{1}{2 n} \sum_{t=1}^n\left\|\boldsymbol{x}_t-\boldsymbol{f}\left(\boldsymbol{M}, \boldsymbol{x}_t\right)\right\|_F^2
+$$
+
 
 
 
@@ -260,7 +294,13 @@ $\min _{\mathbf{W}} L(\mathbf{W})=-\sum_{i=1}^m\left(\sum_{j=1}^n \log p_j\left(
 
 <a name="ref15">[15]</a> Cheeseman, P. (1985). In defense of probability. In Proceedings of the Ninth International Joint Conference on AI (IJCAI, 1983).
 
+<a name="ref16">[16]</a> Williamson, J. (2009). Probabilistic theories of causality. *The Oxford handbook of causation*, 185-212.
 
+<a name="ref17">[17]</a> A theory of causality. British Journal for the Philosophy of Science, 9:307-310.
+
+<a name="ref18">[18]</a> A causal calculus I. British Journal for the Philosophy of Science, 11:305-318. Errata vol 13 pg. 88.
+
+<a name="ref19">[19]</a> A causal calculus II. British Journal for the Philosophy of Science, 12:43-51. Errata vol 13 pg. 88.
 
 
 
