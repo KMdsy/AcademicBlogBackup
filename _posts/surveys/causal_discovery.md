@@ -200,9 +200,9 @@ Casual structure learning的经典分类方法可分为三个**主要类别**：
 </div>
 
 
-## 从优化的角度分析因果发现问题
+## 从优化的角度分析Casual structure learning问题
 
-为了理解三类因果发现的方法, 这里从优化的角度对三类方法进行阐述。
+为了理解三类Casual structure learning的方法, 这里从优化的角度对三类方法进行阐述。
 
 首先用$\mathcal{G}$表示$d$个节点所构成的有向图空间。对 $\forall G(\boldsymbol{M}) \in \mathcal{G}$ , 用 $\boldsymbol{M}$ 表示对应的邻接矩阵, 反过来, 用 $G(\boldsymbol{M})$ 表示以 $\boldsymbol{M}$ 为邻接矩阵的有向图。元素 $M_{i,j}=1$ 表示存在因果关系 $\boldsymbol{x}_i \rightarrow \boldsymbol{x}_j$ ，$M_{i,j}=0$ 表示不存在因果关系。 $\boldsymbol{X}=[\boldsymbol{x}_1, \cdots, \boldsymbol{x}_d] \in \mathbb{R}^{n \times d}$ 表示 $d$ 维的观测数据, 其中每个数据观测 $n$ 次。$\mathbb{D}$ 表示由 $d$ 个节点组成的有向无环图集合。
 
