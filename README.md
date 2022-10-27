@@ -3,4 +3,4 @@
 
 ## Update
 
-2022.10.23: 更新了`./_posts/surveys/causal_discovery.md`
+2022.10.27: 更新了`./_posts/surveys/causal_discovery.md`

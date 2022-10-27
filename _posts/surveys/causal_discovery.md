@@ -50,7 +50,7 @@ tag:
 
 > 事件 $F$ 是事件 $E$ 的原因需要满足：
 >
-> 1. 事件 $E$ 和 $F$ 同时发生
+> 1. 事件 $E$ 和 $F$ 同时成立（对有时间约束的事件则是$F_t \leq E_t$）
 >
 > 2. $P(E|H)<1, P(F|H)<1$ ，其中$H$包含两部分：
 >
@@ -164,7 +164,7 @@ Casual structure learning的经典分类方法可分为三个**主要类别**：
 
 - **Score-based methods**: 这类方法首先指定因果父节点到子节点之间的函数关系, 然后以某个分数, 如AIC / BIC, 为优化目标, 优化得到**图结构**以及相关参数。
 
-    - 如NOTEARS假设函数关系为$x=\sum w_x f(P_a(x))$, 其中$w_x$是变量$x$的权重, $P_a(x)$是其因果父节点
+    - 如NOTEARS假设函数关系为 $x=\sum w_x f(P_a(x))$ , 其中 $w_x$ 是变量 $x$ 的权重, $P_a(x)$ 是其因果父节点
     - 缺点: 
         1. 该方法也会得到马尔可夫等价类。
         2. 由于要找到最优分数, 就要搜索全部的图, 这是一个NP-hard的问题, 复杂度极高且容易陷入局部最优。
@@ -204,61 +204,58 @@ Casual structure learning的经典分类方法可分为三个**主要类别**：
 
 为了理解三类因果发现的方法, 这里从优化的角度对三类方法进行阐述。
 
-首先用$\mathcal{G}$表示$d$个节点所构成的有向图空间。对$\forall G \in \mathcal{G}$, 用$\mathbf{M}$表示对应的邻接矩阵, 反过来, 用$G(\mathbf{M})$表示以$\mathbf{M}$为邻接矩阵的有向图。记录观测矩阵为$\mathbf{X}=[\mathbf{x}_1, \cdots, \mathbf{x}_d] \in \mathbb{R}^{n \times d}$, 表示$d$维的观测数据, 其中每个数据观测$n$次。
-
+首先用$\mathcal{G}$表示$d$个节点所构成的有向图空间。对 $\forall G(\boldsymbol{M}) \in \mathcal{G}$ , 用 $\boldsymbol{M}$ 表示对应的邻接矩阵, 反过来, 用 $G(\boldsymbol{M})$ 表示以 $\boldsymbol{M}$ 为邻接矩阵的有向图。元素 $M_{i,j}=1$ 表示存在因果关系 $\boldsymbol{x}_i \rightarrow \boldsymbol{x}_j$ ，$M_{i,j}=0$ 表示不存在因果关系。 $\boldsymbol{X}=[\boldsymbol{x}_1, \cdots, \boldsymbol{x}_d] \in \mathbb{R}^{n \times d}$ 表示 $d$ 维的观测数据, 其中每个数据观测 $n$ 次。$\mathbb{D}$ 表示由 $d$ 个节点组成的有向无环图集合。
 
 ### Constraint-based Method
 
-基于约束的算法利用 从一系列统计测试中获得的一组条件独立性结果 来恢复因果图。该类方法的优化问题表述为: 
+基于约束的算法利用 从一系列统计测试中获得的一组条件独立性结果 来恢复因果图。
 
+当从数据 $\boldsymbol{X}$ 中已经学习到每一对变量间条件独立检验的最小测试统计量，如p-value，因此可以构造出测试统计量矩阵 $\boldsymbol{P}$ ，其中对角线上的元素均为0，元素 $P_{i,j}$ 表示 $\boldsymbol{x}_i , \boldsymbol{x}_j$ 间的条件独立性检验的测试统计量，假设检验的显著性水平为 $\alpha$ 。 $f$ 表示条件独立检验统计量的函数， $Q$ 表示用于评价得到的统计量矩阵与图 $G$ 的拟合程度的函数。
+
+该类方法的优化问题表述为: 
 $$
-\begin{array}{ll}\text{min} &Q\left( I\left( \mathbf{M}\right)  ,T\left( \mathbf{X}\right)  \right)  \\ \text{s.t.} &T\left( \mathbf{X}\right)  \\ &G\left( \mathbf{M}\right)  \in \text{DAGs} \\ \text{var} &\mathbf{M}\in \left\{ 0,1\right\}^{d\times d}  \end{array}
+\begin{array}{}
+\min : & Q(\boldsymbol{M}, f(\boldsymbol{P}, \alpha)) \\
+s.t. & G(\boldsymbol{M}) \in \mathbb{D} \\
+var: & \boldsymbol{M} \in\{0,1\}^{d \times d} \\
+\end{array}
 $$
-其中$Q(\cdot)$用于衡量集合$I(\mathbf{M}),T(\mathbf{X})$之间的相似程度, $T(\mathbf{X})$是一组在$\mathbf{X}$中可测试的所有**条件独立/依赖**的约束集合。其中条件独立约束表示为$\mathbf{x}_i \bot \mathbf{x}_j | S$, 条件依赖约束表示为$\mathbf{x}_i \bot \backslash  \mathbf{x}_j | S$。 $I(\mathbf{M})$为一组根据图G得到的独立和依赖的约束集合。
-
-
-**举例**: 如在PC<a href="#ref5">$^{5}$</a>算法中, 函数$Q(\cdot)$表示为
-
+**举例**: 如在PC<a href="#ref5">[5]</a>算法中，存在假设检验 $\left\{\begin{array}{}
+H_0: & \boldsymbol{x}_i \perp \boldsymbol{x}_j \\
+H_1: & \boldsymbol{x}_i \perp / \boldsymbol{x}_j
+\end{array}\right.$ ，当测试统计量小于显著性水平时， $H_1$ 成立，即有
 $$
-Q\left( I\left( \mathbf{M} \right)  ,T\left( \mathbf{X} \right)  \right)  =\begin{cases}1&\text{if} \  I\left( \mathbf{M} \right)  \neq T\left( \mathbf{X} \right)  \\ 0&\text{otherwise} \end{cases}
+Q(\boldsymbol{M}, f(\boldsymbol{P}, \alpha))=\sum_{i, j=1: \mathrm{d}} M_{i, j} \cdot\left(P_{i, j}-\alpha\right)
 $$
-
+表示从数据中得到的(条件)独立约束在图得到的(条件)独立约束集合中未出现的数量。
 
 ### Score-based Method
 
-基于得分的算法最大化图$G$与观测数据$\mathbf{X}$之间的适应度, 来构建因果结构。该类方法的优化问题表述为: 
+基于得分的算法最大化图 $G$ 与观测数据 $\boldsymbol{X}$ 之间的适应度, 来构建因果结构。该类方法的优化问题表述为: 
 
 $$
-\begin{array}{ll}\max &S\left( \mathbf{M} ,\mathbf{X} \right)  \\ \text{s.t.} &G\left( \mathbf{M} \right)  \in \text{DAGs} \\ \text{var} &\mathbf{M} \in \left\{ 0,1\right\}^{d\times d}  \end{array}
+\begin{array}{ll}\max &S\left( \boldsymbol{M} ,\boldsymbol{X} \right)  \\ \text{s.t.} &G\left( \boldsymbol{M} \right)  \in \mathbb{D} \\ \text{var} &\boldsymbol{M} \in \left\{ 0,1\right\}^{d\times d}  \end{array}
 $$
-其中DAG约束在<a href="#ref6">[6]</a>中被重写为$\text{tr} \left( {}e^{\mathbf{M} \circ \mathbf{M} }\right)  -d=0$, 这使得目标函数可以被连续优化。$S(\cdot)$为图与观测助局之间的适应度得分, 可用的得分函数包括BIC(GES<a href="#ref7">[7]</a>)、Bde<a href="#ref8">[8]</a>、Bge<a href="#ref9">[9]</a>。不同的方法往往采用不同的搜索算法在图空间中与哦话上述目标函数, 如: 贪心搜索(greedy search)<a href="#ref8">[8]</a>、顺序查找(order search)<a href="#ref10">[10]</a>、坐标下降<a href="#ref5">[5]</a>。
-
-
+其中DAG约束在<a href="#ref6">[6]</a>中被重写为 $\text{tr} \left( {}e^{\boldsymbol{M} \circ \boldsymbol{M} }\right)  -d=0$ , 这使得目标函数可以被连续优化。$S(\cdot)$为图与观测助局之间的适应度得分, 可用的得分函数包括BIC(GES<a href="#ref7">[7]</a>)、Bde<a href="#ref8">[8]</a>、Bge<a href="#ref9">[9]</a>。不同的方法往往采用不同的搜索算法在图空间中与哦话上述目标函数, 如: 贪心搜索(greedy search)<a href="#ref8">[8]</a>、顺序查找(order search)<a href="#ref10">[10]</a>、坐标下降<a href="#ref5">[5]</a>。
 
 **举例**: NOTEARS<a href="#ref11">[11]]</a>中的得分函数为
-
 $$
-\mathcal{S}(\boldsymbol{M}, \boldsymbol{X})=\frac{1}{2 n} \sum_{t=1}^n\left\|\boldsymbol{x}_t-\boldsymbol{f}\left(\boldsymbol{M}, \boldsymbol{x}_t\right)\right\|_F^2
+\mathcal{S}(\boldsymbol{M}, \boldsymbol{X})=\frac{1}{2 n} \sum_{t=1}^n\left\|\boldsymbol{x}_{t,:}-\boldsymbol{f}\left(\boldsymbol{M}, \boldsymbol{x}_{t,:}\right)\right\|_F^2
 $$
-
-
-
+$\boldsymbol{x}_{t,:} \in \mathbb{R}^{1 \times d}$ 表示第 $t$ 个观测样本，$f$ 为生成模型
 
 ### Functional Causal Model
 
-基于FCM的算法假设变量间的因果关系满足函数$\mathbf{x}_j=f(\mathbf{x}_i,\mathbf{e}_j;\boldsymbol{\theta})$ , 其中$\mathbf{x}_i, \mathbf{x}_j$分别为直接原因变量、果变量, $\mathbf{e}_j \in \mathbb{R}^{n}$表示一些不可测量因素或噪音。$\boldsymbol{\epsilon}=[\mathbf{e}_1, \cdots, \mathbf{e}_d]$, $\boldsymbol{\theta}$为模型参数。下式中用$L(\cdot)$表示用于衡量参数$\boldsymbol{\theta}$的模型的预测值与实际观测的数据$\mathbf{x}_j$间的拟合程度的函数。该类方法的优化问题表述为: 
+基于FCM的算法假设变量间的因果关系满足函数 $\boldsymbol{x}_j=f(\boldsymbol{x}_i,\boldsymbol{e}_j;\boldsymbol{\theta}_{i,j})$  , 其中 $\boldsymbol{x}_i, \boldsymbol{x}_j$ 分别为直接原因变量、果变量， $\boldsymbol{e}_j \in \mathbb{R}^{n}$ 表示一些不可测量因素或噪音。 $\boldsymbol{\epsilon}=[\boldsymbol{e}_1, \cdots, \boldsymbol{e}_d]$ ， $\boldsymbol{\theta}$ 为模型参数。下式中用 $L(\cdot)$ 表示用于衡量参数 $\boldsymbol{\theta}$ 的模型的预测值与实际观测的数据 $\boldsymbol{x}_j$ 间的拟合程度的函数。该类方法的优化问题表述为: 
 
-$\begin{array}{ll}\min &\sum_{i,j=1:d} M_{i,j}L\left( \mathbf{x}_{j} ,f\left( \mathbf{x}_{i} ,\mathbf{e}_{j} ;\boldsymbol{\theta} \right)  \right)  \\ \text{s.t.} &G\left( \mathbf{M} \right)  \in \  \text{DAGs} \\ &C\left( \mathbf{x} ,\boldsymbol{\epsilon} \right)  \\ \text{var} & \boldsymbol{\theta} ,\mathbf{M} \in \left\{ 0,1\right\}^{d\times d}  \end{array} $
-
-其中$C\left( \mathbf{x} ,\boldsymbol{\epsilon} \right)$表示对数据及噪声等的假设集合。
-
-
-
-**举例**: LiNGAM<a href="#ref12">[12]</a>假设$\boldsymbol{x}_i=\sum_{\boldsymbol{x}_j \in p a\left(\boldsymbol{x}_i\right)} b_{i j} \boldsymbol{x}_j+\boldsymbol{e}_i$, 噪声项的概率密度函数记为$p_i(\mathbf{e}_i)$。基于ICA和极大似然估计, 对于LiNGAM模型**参数估计部分**的优化目标为
-
-$\min _{\mathbf{W}} L(\mathbf{W})=-\sum_{i=1}^m\left(\sum_{j=1}^n \log p_j\left(\boldsymbol{w}_j^T \boldsymbol{x}_i\right)+\log |\mathbf{W}|\right)$
-
-其中$\mathbf{W}=(\mathbf{I}-\mathbf{B})^{-1}$, $\mathbf{B}_{i j}=b_{i j}$。另外LiNGAM假设噪声项独立同分布, 即所有噪声项满足$p(\boldsymbol{e})=\prod_{j=1}^n p\left(e_j\right)$, 对应$C\left( \mathbf{x} ,\boldsymbol{\epsilon} \right)$。基于估计出的$\mathbf{W}$可以计算得到因果图结构。
+$$
+\begin{array}{}
+\min : & \sum_{i, j=1: \mathrm{d}} M_{i, j} \cdot\left(L\left(\boldsymbol{x}_j, f\left(\boldsymbol{x}_i, \theta_{i, j}\right)\right)+Q\left(\boldsymbol{x}_i, \boldsymbol{x}_j-f\left(\boldsymbol{x}_i, \theta_{i, j}\right)\right)\right) \\
+s.t. & G(M) \in \mathbb{D} \\
+var: & \boldsymbol{\theta}, \boldsymbol{M} \in\{0,1\}^{d \times d}
+\end{array}
+$$
+设有假设 $H_1: \boldsymbol{x}_i \perp (\boldsymbol{x}_j - f(\boldsymbol{x}_i,\boldsymbol{\theta}_{i,j})$ ，$Q\left(\boldsymbol{x}_i, \boldsymbol{x}_j-f\left(\boldsymbol{x}_i, \theta_{i, j}\right)\right)$ 表示 $\boldsymbol{x}_i$ 和 $\boldsymbol{x}_j-f\left(\boldsymbol{x}_i, \theta_{i, j}\right)$ 之间的独立性检验的测试统计量，当其小于显著性水平 $\alpha$ 时接受 $H1$ （这种方法对应于一类假设检验方法：regression-based independence test）。
 
 
 
@@ -296,11 +293,11 @@ $\min _{\mathbf{W}} L(\mathbf{W})=-\sum_{i=1}^m\left(\sum_{j=1}^n \log p_j\left(
 
 <a name="ref16">[16]</a> Williamson, J. (2009). Probabilistic theories of causality. *The Oxford handbook of causation*, 185-212.
 
-<a name="ref17">[17]</a> A theory of causality. British Journal for the Philosophy of Science, 9:307-310.
+<a name="ref17">[17]</a> Good, I. J. (1959). A theory of causality. *The British Journal for the Philosophy of Science*, *9*(36), 307-310.
 
-<a name="ref18">[18]</a> A causal calculus I. British Journal for the Philosophy of Science, 11:305-318. Errata vol 13 pg. 88.
+<a name="ref18">[18]</a> Good, I. J. (1961). A causal calculus (I). *The British journal for the philosophy of science*, *11*(44), 305-318.
 
-<a name="ref19">[19]</a> A causal calculus II. British Journal for the Philosophy of Science, 12:43-51. Errata vol 13 pg. 88.
+<a name="ref19">[19]</a> Good, I. J. (1961). A causal calculus (II). *The British journal for the philosophy of science*, *12*(45), 43-51.
 
 
 
