@@ -1,7 +1,7 @@
 ---
 title: Causal Discovery
 date: 2021-08-25 12:00:00
-updated: 2022-10-26 12:20:00
+updated: 2022-10-27 11:02:00
 tag: 
 - survey
 - causal discovery
