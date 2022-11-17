@@ -1,7 +1,7 @@
 ---
 title: Causal Discovery
 date: 2021-08-25 12:00:00
-updated: 2022-10-27 11:02:00
+updated: 2022-11-17 18:19:00
 tag: 
 - survey
 - causal discovery
@@ -18,9 +18,7 @@ tag:
 
 <!-- more -->
 
-## The Concept of Causal
-
-### 因果三阶梯
+## 因果三阶梯
 
 **Causal discovery(CD)** 包含三个层次 <a href="#ref1">[1]</a>: 
 
@@ -28,9 +26,11 @@ tag:
 - 干预 *Intervention*: 改变A的时候, B如何改变
 - 反事实 *Counterfactuals*: 要想改变B, 应该如何改变A
 
-事实上, 许多CD的方法都仅能做到**前两个阶段**。"反事实"通常是不可实现的, 因为"反事实"要求在与历史完全相同的环境因素下**执果索因**。
+事实上, 许多CD的方法都仅能做到**前两个阶段**。"反事实"通常是不可实现的, 因为"反事实"要求在与<u>历史完全相同的环境因素</u>下**探究决策对个体的影响**。
 
-### 因果与因果结构学习
+
+
+## 因果的本质、数学表达 与 因果结构学习
 
 这一节的分析源自下面对三类causal structure learning方法挖掘的因果本质的思考。后文中已经分析得出，三类causal structure learning方法发现的因果都只停留在由“条件依赖”或者“回归”所刻画的“**关联关系**”，而非真正的因果关系，因此本节的主题是
 
@@ -40,9 +40,12 @@ tag:
 要分析causal discovery和causal structure learning之间的区别，有以下思路：
 
 - 已知causal structure learning中，已经用不同的模型对因果进行了定义，这种定义或是定性的、或是定量的，因此这类方法本质上就是在根据每种方法的定义，从数据中拟合所谓的“因果”。因此causal structure learning可以视为“学习以模型定义的因果”的一类方法
+
 - 那除了用模型定义的因果，还有哪些定义呢。
 
-**因果的本质**
+    
+
+### 因果的本质
 
 文献<a href="#ref14">[14]</a>从哲学、社会学等层面探究了因果在AI领域的定义，在Section 6.5中提到了一个关键问题：“因果是**确定性**的还是**概率性**的？”，以下是一些结论：自古以来，因果这个概念都**不具备一个统一的定义**。自古以来，因果总是与决定论、物理必然性和逻辑必然性联系在一起（即：**确定性**）。但在现代科学所研究的因果理论几乎都是**概率性**的，即以概率论和统计学论为基础的。但也有部分确定性的表述，这种表述大多源自于工程学，是一种不证自明方法（这里我理解，在工程学里总有“改变A，基于设计原理，B就一定会改变，并且B只受A控制，因此AB是因果关系”的表述，这种工程学上的因果显然是确定性的）。
 
@@ -74,9 +77,30 @@ $$
 - 因果在哲学上的定义一般都是确定性的，但在现代科学中，通常被定义为概率性的。之所以被如此定义，一方面是有部分前人的工作也如此定义；另一方面，经典的概率足以模拟人类推理的几乎所有方面<a href="#ref15">[15]</a>。从这个角度上来讲，**概率性因果是对确定性因果的一个更广义的描述**。
 - 站在概率性因果的角度，因果发现可以被称之为，在数据中发现概率结构的工作（即因素A的概率分布变化时，因素B的概率分布是否变化），其本质都是在拟合一个概率模型。从这个角度来说，**概率模型**也可以用于因果发现。
 
-**因果结构学习**
+### 因果结构学习
 
-causal structure learning是一种学习structure causal model的方法。其基础是对因果进行概率、统计上的定义，并用恰当的模型来描述因果结构。graphical model则是structure causal model的一种，也是受广泛研究的一种。
+近三十年来, 因果学习的工作一般聚焦于"因果结构学习(casual structure learning)", 所得到的**结构因果模型(structural causal model, SCM)** 对因果进行了概率、统计上的定义，并用恰当的模型来描述因果结构。SCM包含两个部分: 
+
+- Graphical models: 由图模型表示的因果关系, 其中节点表示随机变量, 有向边表示因果方向
+- Structural equations: 在图模型中, 有向边上的因果效应, 由函数式表示
+
+graphical model则是structure causal model的一种，也是受广泛研究的一种。
+
+<a href="#ref1">[1]</a>中对SCM有以下论述
+
+> **"structural causal models"** (SCM), which consists of three parts: *graphical models*, *structural equations,* and *counterfactual and interventional logic*. 
+>
+> Graphical models serve as a language for representing what agents know about the world. Counterfactuals help them articulate what they wish to know. And structural equations serve to tie the two together in a solid semantics.
+
+<a href="#ref3">[3]</a>中则着重推崇了图模型作为因果模型的表达形式
+
+> Methods for extracting causal conclusions from observational studies are on the **middle** rung of Pearl’s Ladder of Causation, and they can be expressed in a mathematical language that extends classical statistics and **emphasizes graphical models**.
+>
+> Various options exist for causal models: causal diagrams, structural equations, logical statements, and so forth. I am strongly sold on causal diagrams for nearly all applications, primarily due to their transparency but also due to the explicit answers they provide to many of the questions we wish to ask.
+>
+> …… 
+>
+> Pearl defines a causal model to be **a directed acyclic graph** that can be paired with data to produce quantitative causal estimates. The graph embodies the structural relationships that a researcher assumes are driving empirical results. The structure of the graphical model, including the identification of vertices as mediators, confounders, or colliders, can guide experimental design through the identification of minimal sets of control variables. Modern expositions on graphical cause and effect models are Pearl (2009) and Spirtes et al. (2000).
 
 综上所述，casual discovery / probabilistic model / structure casual model / casual graph 之间的关系为
 
@@ -85,7 +109,120 @@ causal structure learning是一种学习structure causal model的方法。其基
 </div>
 **Remark**: (1) 格兰杰因果应该属于structure casual model，但不一定属于图模型；(2) 图模型不仅包括DAG，还有其他类型的图。
 
-**支撑材料**
+
+
+### 因果与统计模型的关联与区别
+
+上文中提到，广义上讲，因果学习的本质是学习一个概率模型（概率模型可以被视为统计模型）。但**概率模型 （或统计模型）与 因果 是两个完全不同的概念**。
+
+首先，明确一个关系，即：根据因果三阶梯，从上到下分别为“关联”“干预”“反事实”，其中关联是上述两个概念的基础，而干预和反事实才是因果特有的层次。<a href="#ref20">[20]</a>对关联和因果给出了明确的分界线。
+
+- 关联：可以用分布函数来定义，例子：相关性、回归、依赖性、条件独立性等
+- 因果：不能只用分布函数来定义，例子：影响、混淆、干扰等。**因果不能从关联中推导出**，甚至**不可以只从统计关联的角度上定义**。
+
+从数学的角度上，任何因果分析的数学方法都**必须获得新的符号**来表示因果关系。概率符号对于表示因果关系来说是不够的。
+
+- 举例来说，概率相关的数学语言不允许我们表达“症状不导致疾病”这一简单事实，更不允许我们从这些事实中得出数学结论。我们只能说，两个事件是相互依赖的——这意味着，如果我们找到一个，我们就可以预期遇到另一个，但我们无法**区分统计依赖性**（由条件概率 P 量化的疾病症状）和**因果依赖性**，我们在标准概率演算中没有对此关系的表达式<a href="#ref20">[20]</a>。
+
+这是我们为因果关系建立一套新的数学表达的动机。
+
+### 因果分析中的数学表示
+
+**Structural Causal Models** 
+
+- Structure Equations：变量-下标形式 / 带 $do$ 操作符的形式：
+    $$
+    𝑃(𝑌_𝑥  = 𝑦)⟺𝑃(𝑌=𝑦|𝑠𝑒𝑡(𝑋=𝑥))⟺𝑃(𝑌=𝑦|𝑑𝑜(𝑋=𝑥))
+    $$
+
+    - $P(Y_x = y)$：$Y$ 是一个随机变量，当随机变量 $X=x$ 时 $Y$ 在总体中达到 $y$ 值的概率。
+
+    - $P(Y=y|do(X=x))$：当 $X=x$ 均匀的施加在每一个个体上时，$Y=y$ 发生的概率，常用于控制实验。
+
+- Graphical Models：因果假设编码在**缺失的链接**中——两个变量之间有连接只代表存在因果关系的**可能性**，而没有连接则代表没有因果。可以辅以方程式来表达因果之间的定量关系。
+
+
+
+**表达因果效应大小**
+
+- $Cov(X, Y)$：给定由以上模型表征的因果假设后，可以用协方差表示因果效应的大小，辅助从观察到的非实验数据中估计因果参数。
+
+
+
+**干预——数学表达**
+
+干预的基础是结构方程（SEM），并通过$do$运算符完成。
+
+- $do(x)$：模拟了一种物理世界的交互——在给定的SEM中，**删除**原模型中X变量的函数，并人为**替换**变量为一个常数 $X=x$。如下图所示
+    - $P(z, y | do(x))$：变量 $Y$ 和 $Z$ 的干预后分布，即表示对所有个体均实施了$X=x$ 后，变量 $Y$ 和 $Z$ 的联合分布
+    - $P(z, y, x)$：变量的干预前分布
+- 记干预前的因果模型为$M$，干预 $X=x$ 后的因果模型为$M_x$
+    - $P_M (y|do(x)) ≜ P_{M_x}(y)$：在干预前的模型 $M$ 中实施干预 $do(x)$ 后 $Y$ 的分布，等价于在干预后模型 $M_x$ 中$ Y$ 的分布。
+
+<img src="https://raw.githubusercontent.com/KMdsy/figurebed/master/img/image-20221117170455716.png" alt="image-20221117170455716" style="zoom:50%;" />
+
+干预的效果表示
+
+- Causal effect：$P(Y=y|do(x))= \sum_z P(z, y|do(x))$
+- Measurements
+    - Average Difference：$E(Y|do(x_0^{'})) -E(Y|do(x_0))$
+    - Experimental Risk Ratio：$\frac{E(Y|do(x_0^′))}{E(Y|do(x_0))}$
+
+
+
+**反事实——数学表达**
+
+- $Y_x (u)$：在变量曾被设置（has been set）为 $X=x$ 的情况下，个体 $u$ 得到的 $Y$ 变量的值
+- $Y_x (u)≜Y_{M_x} (u)$：Unit-level的反事实，定义为在干预后模型 $M_x$ 中，个体 $u$ 得到的 $Y$ 变量的值。
+    - 反事实可以被视为特定情境因素（与过去某个时间的所有因素一致）下的干预。
+    - 反事实一般研究特定情境因素下，个体的干预结果。干预则一般研究决策的**平均**影响情况
+
+
+
+### 反事实推理
+
+从上文可以看出，因果区别与一般的统计模型，其中干预和反事实起到了决定性的作用。本节将先区别干预与反事实的区别，然后阐述反事实推理的基本步骤。
+
+从目标的角度
+
+- 干预：回答“如果**现在**干预变量X，那么对Z会发生什么变化？”
+- 反事实：回答“如果在**过去某个时间**干预变量X，Z会发生什么变化？”
+
+其区别在于
+
+- “干预”改变但不与观察到的世界相矛盾，因为干预前后的世界处于不同的时间
+
+- “反事实”则与已知事实相冲突
+
+注：二者并不是被严格区分的，也有研究不区分二者，这是一种哲学/文化上的差别
+
+
+
+**反事实推理的基本步骤**
+
+**Background**：SCM及其当中的参数
+
+1. Step1: 外展——为每个观测变量设置一个在**过去可能未观测**到的变量集合$U$，基于历史观测学习集合$U$
+
+2. Step2: 干预——为反事实推理建立新的干预模型，其中干预操作将会代替SCM中的一个（或多个）变量
+
+3. Step3: 预测——将历史未观测变量$U$以及**干预操作**代入修改后的SCM，进行反事实推理
+
+<img src="https://raw.githubusercontent.com/KMdsy/figurebed/master/img/image-20221117171058267.png" alt="image-20221117171058267" style="zoom:67%;" />
+
+**反事实（Counterfactual）推理——以确定性模型为例**
+
+![image-20221117171259748](https://raw.githubusercontent.com/KMdsy/figurebed/master/img/image-20221117171259748.png)
+
+对于概率型模型，则需要针对变量的所有情况进行考虑。其中“预测”则由“求概率”转为“求期望”。
+
+下面的指标可以用于**评估**某个操作是否对未来有影响<a href="#ref20">[20]</a>，此外还有多种指标，如
+$$
+P N(x, y)=P\left(Y_{x^{\prime}}=y^{\prime} \mid X=x, Y=y\right) \\
+E T T=P\left(Y_x=y \mid X=x^{\prime}\right)
+$$
+
+### 支撑材料
 
 “结构学习本质上是一个模型选择问题，选择一个给定数据集上最能够描述数据依赖的模型。因果结构学习是结构学习中的一种特例，其学习了一个因果图”。这个观点是被普遍接受的。
 
@@ -120,29 +257,6 @@ causal structure learning是一种学习structure causal model的方法。其基
 
 
 ## Casual Structure Learning
-
-近三十年来, 因果学习的工作一般聚焦于"因果结构学习(casual structure learning)", 所得到的**结构因果模型(structural causal model, SCM)** 包含两个部分: 
-
-- Graphical models: 由图模型表示的因果关系, 其中节点表示随机变量, 有向边表示因果方向
-- Structural equations: 在图模型中, 有向边上的因果效应, 由函数式表示
-
-<a href="#ref1">[1]</a>中对SCM有以下论述
-
-> **"structural causal models"** (SCM), which consists of three parts: *graphical models*, *structural equations,* and *counterfactual and interventional logic*. 
->
-> Graphical models serve as a language for representing what agents know about the world. Counterfactuals help them articulate what they wish to know. And structural equations serve to tie the two together in a solid semantics.
-
-<a href="#ref3">[3]</a>中则着重推崇了图模型作为因果模型的表达形式
-
-> Methods for extracting causal conclusions from observational studies are on the **middle** rung of Pearl’s Ladder of Causation, and they can be expressed in a mathematical language that extends classical statistics and **emphasizes graphical models**.
->
-> Various options exist for causal models: causal diagrams, structural equations, logical statements, and so forth. I am strongly sold on causal diagrams for nearly all applications, primarily due to their transparency but also due to the explicit answers they provide to many of the questions we wish to ask.
->
-> …… 
->
-> Pearl defines a causal model to be **a directed acyclic graph** that can be paired with data to produce quantitative causal estimates. The graph embodies the structural relationships that a researcher assumes are driving empirical results. The structure of the graphical model, including the identification of vertices as mediators, confounders, or colliders, can guide experimental design through the identification of minimal sets of control variables. Modern expositions on graphical cause and effect models are Pearl (2009) and Spirtes et al. (2000).
-
-
 
 ### Casual structure learning的三类方法
 
@@ -200,7 +314,7 @@ Casual structure learning的经典分类方法可分为三个**主要类别**：
 </div>
 
 
-## 从优化的角度分析Casual structure learning问题
+### 从优化的角度分析三类方法
 
 为了理解三类Casual structure learning的方法, 这里从优化的角度对三类方法进行阐述。
 
@@ -298,6 +412,8 @@ $$
 <a name="ref18">[18]</a> Good, I. J. (1961). A causal calculus (I). *The British journal for the philosophy of science*, *11*(44), 305-318.
 
 <a name="ref19">[19]</a> Good, I. J. (1961). A causal calculus (II). *The British journal for the philosophy of science*, *12*(45), 43-51.
+
+<a name="ref20">[20]</a> Pearl, J. (2009). Causal inference in statistics: An overview. *Statistics surveys*, *3*, 96-146.
 
 
 
