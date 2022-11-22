@@ -112,9 +112,16 @@ tag:
 
 
 
+## How to train a big model, from zero to one
+
+
+
+**主要参考文献**
+Kalyan, K. S., Rajasekharan, A., & Sangeetha, S. (2021). Ammus: A survey of transformer-based pretrained models in natural language processing. *arXiv preprint arXiv:2108.05542*.
+
 ## Related work, after 2020
 
-这里列出了大模型的训练算法、应对大规模模型参数的解法，应对分布式数据、环境的训练方法。
+这里列出了大模型的训练算法、应对大规模模型参数的解法，应对分布式数据、环境的训练方法。有标注会议名称的论文均为顶会/领域顶会论文。
 
 - [ACL2022] BMInf: An Efficient Toolkit for Big Model Inference and Tuning
 
@@ -149,6 +156,10 @@ tag:
 - [RECSYS2021] Large-Scale Modeling of Mobile User Click Behaviors Using Deep Learning
 
   Xin ZhouYang Li
+
+- Lewis, P., Ott, M., Du, J., & Stoyanov, V. (2020, November). Pretrained language models for biomedical and clinical tasks: Understanding and extending the state-of-the-art. In *Proceedings of the 3rd Clinical Natural Language Processing Workshop* (pp. 146-157).
+
+
 
 此外还有一些大模型在多模态数据、针对大模型的security issue（like backdoor attack, etc.）等议题；在此不列出。
 
