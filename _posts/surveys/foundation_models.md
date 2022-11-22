@@ -1,6 +1,7 @@
 ---
 title: Foundation models
 date: 2022-11-21 12:00:00
+updated: 2022-11-22 23:28:00
 tag: 
 - survey
 - foundation models
