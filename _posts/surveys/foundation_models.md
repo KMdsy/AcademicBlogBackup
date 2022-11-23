@@ -94,9 +94,9 @@ tag:
 
 - 与knowledge graph结合： OAG-BERT [2] 
 
-> *[1]* Ding, M., Zhou, C., Chen, Q., Yang, H., & Tang, J. (2019, July). Cognitive Graph for Multi-Hop Reading Comprehension at Scale. In *Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics* (pp. 2694-2703).
+> [1] Ding, M., Zhou, C., Chen, Q., Yang, H., & Tang, J. (2019, July). Cognitive Graph for Multi-Hop Reading Comprehension at Scale. In *Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics* (pp. 2694-2703).
 >
-> *[2]* *Liu, X., Yin, D., Zhang, X.,* *Su**, K., Wu, K., Yang, H., & Tang, J. (2021).* *Oag-bert**: Pre-train heterogeneous entity-augmented academic language models.* *arXiv* *preprint arXiv:2103.02410*.
+> [2] Liu, X., Yin, D., Zhang, X., Su, K., Wu, K., Yang, H., & Tang, J. (2021). Oag-bert: Pre-train heterogeneous entity-augmented academic language models. *arXiv* *preprint arXiv:2103.02410*.
 
 ### 大模型复杂度分析
 
@@ -113,6 +113,28 @@ tag:
 
 
 ## How to train a big model, from zero to one
+
+在specific-domain构建一个大模型，首先需要
+
+1. 确定下游任务
+
+    - 下游任务决定了模型的预训练任务：预训练任务应当challenge，且贴近下游任务。分析下游任务主要分析token-wise还是sentence-wise relationship，可以按需选择预训练任务。
+
+    - 下游任务决定了模型骨架：模型注重NLU还是NLG？
+
+2. 确定模型骨架：从Autoencoding / Autoregressive / Encoder-decoder中选择合适的框架
+3. 确定模型预训练任务
+4. 从下游任务和预训练任务出发，处理并准备语料
+
+
+
+在确定了以上要素后，在specific-domain foundation model中存在“词表与通用领域不同”的问题，即可能某些词语在通用语料库中不存在，或具有歧义，因此模型的word embedding层需要替换为specific domain的词表。如下图所示采用skip-gram学习embedding。
+
+<img src="https://raw.githubusercontent.com/KMdsy/figurebed/master/img/image-20221123161546624.png" alt="image-20221123161546624" style="zoom: 33%;" />
+
+
+
+
 
 
 
@@ -158,6 +180,8 @@ Kalyan, K. S., Rajasekharan, A., & Sangeetha, S. (2021). Ammus: A survey of tran
   Xin ZhouYang Li
 
 - Lewis, P., Ott, M., Du, J., & Stoyanov, V. (2020, November). Pretrained language models for biomedical and clinical tasks: Understanding and extending the state-of-the-art. In *Proceedings of the 3rd Clinical Natural Language Processing Workshop* (pp. 146-157).
+
+- Zheng, Z., Lu, X. Z., Chen, K. Y., Zhou, Y. C., & Lin, J. R. (2022). Pretrained domain-specific language model for natural language processing tasks in the AEC domain. *Computers in Industry*, *142*, 103733.
 
 
 
