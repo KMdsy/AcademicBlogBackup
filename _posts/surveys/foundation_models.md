@@ -174,7 +174,7 @@ Kalyan, K. S., Rajasekharan, A., & Sangeetha, S. (2021). Ammus: A survey of tran
 
 ​		Atli Kosson; Vitaliy Chiley; Abhinav Venigalla; Joel Hestness; Urs Koster
 
-大模型在垂直领域的构建
+### 大模型在垂直领域（定义在文本领域）的构建
 
 - [RECSYS2021] Large-Scale Modeling of Mobile User Click Behaviors Using Deep Learning
 
@@ -182,9 +182,20 @@ Kalyan, K. S., Rajasekharan, A., & Sangeetha, S. (2021). Ammus: A survey of tran
 
 - Lewis, P., Ott, M., Du, J., & Stoyanov, V. (2020, November). Pretrained language models for biomedical and clinical tasks: Understanding and extending the state-of-the-art. In *Proceedings of the 3rd Clinical Natural Language Processing Workshop* (pp. 146-157).
 
-- Zheng, Z., Lu, X. Z., Chen, K. Y., Zhou, Y. C., & Lin, J. R. (2022). Pretrained domain-specific language model for natural language processing tasks in the AEC domain. *Computers in Industry*, *142*, 103733.
+- Xiao, C., Hu, X., Liu, Z., Tu, C., & Sun, M. (2021). Lawformer: A pre-trained language model for chinese legal long documents. *AI Open*, *2*, 79-84.【中国法律长文档，做法律判决预测、相似案例检索、法律阅读理解和法律问答】
 
+- Beltagy, I., Lo, K., & Cohan, A. (2019). SciBERT: A pretrained language model for scientific text. *arXiv preprint arXiv:1903.10676*.【科学文本的语言模型】
 
+- Kierszbaum, S., Klein, T., & Lapasset, L. (2022). ASRS-CMFS vs. RoBERTa: Comparing Two Pre-Trained Language Models to Predict Anomalies in Aviation Occurrence Reports with a Low Volume of In-Domain Data Available. *Aerospace*, *9*(10), 591.【航天事故文档，下游任务是关于故障种类的多分类问题】
+
+- Shen, J. T., Yamashita, M., Prihar, E., Heffernan, N., Wu, X., Graff, B., & Lee, D. (2021). Mathbert: A pre-trained language model for general nlp tasks in mathematics education. *arXiv preprint arXiv:2106.07340*.【数学文本中的语言模型】
+
+### 大模型在垂直领域（定义在物理世界）的构建
+
+- Zheng, Z., Lu, X. Z., Chen, K. Y., Zhou, Y. C., & Lin, J. R. (2022). Pretrained domain-specific language model for natural language processing tasks in the AEC domain. *Computers in Industry*, *142*, 103733. 【建筑施工标准领域的语言模型】
+- Zhou, Y. C., Zheng, Z., Lin, J. R., & Lu, X. Z. (2022). Integrating NLP and context-free grammar for complex rule interpretation towards automated compliance checking. *Computers in Industry*, *142*, 103746.【上一篇的延续，从复杂合规标准中提取规则以做合规检验】
+- Webersinke, N., Kraus, M., Bingler, J. A., & Leippold, M. (2021). Climatebert: A pretrained language model for climate-related text. *arXiv preprint arXiv:2110.12010*.【气候数据上的语言模型，其中有一个很有趣的例子是：*Fact-Checking*，即针对某个证据，由模型给出“该证据支持什么声明”的判断。】
+- Berquand, A., Darm, P., & Riccardi, A. (2021). SpaceTransformers: language modeling for space systems. *IEEE Access*, *9*, 133111-133122.【空间系统中的语言模型，根据空间标准制定，以concept recognization为最后的评估任务，这个任务应当被视为规范/标准类的基础任务】
 
 此外还有一些大模型在多模态数据、针对大模型的security issue（like backdoor attack, etc.）等议题；在此不列出。
 
