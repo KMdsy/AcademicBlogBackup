@@ -1,18 +1,19 @@
 ---
 title: 3GPP体系
 date: 2022-12-23 19:07:00
+Updated: 2022-12-25 21:19:00
 tag: 
 - note
 - 5G
 - 4G
-- 5G NR
 - 3GPP
 ---
 
 本文主要梳理3GPP在无线通信领域的协议体系，以专家知识赋能「基于3GPP协议语料的foundation model」。初步的,本文将梳理以下几点（持续更新）
 
 - 从RAN出发，对梳理相关专业名词
-- 3GPP相关的协议架构 ⏸️ 
+- 3GPP相关的协议架构 
+    - 参考：[link](https://zhuanlan.zhihu.com/p/102176081)，对3GPP协议的架构、命名、下载方式等做出了总结 ‼️
 
 <!-- more -->
 
